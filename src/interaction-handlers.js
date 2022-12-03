@@ -60,7 +60,7 @@ export class InputOrTextAreaChangeInteractionHandler {
     if (this.isCheckboxOrRadio(target)) {
       return new TestStep(TestStepTypes.CLICK, { selector: getSelector(target), value: target.checked })
     } else {
-      return new TestStep(TestStepTypes.CHANGE, { selector: getSelector(target), value: target.value })
+      return new TestStep(TestStepTypes.INPUT, { selector: getSelector(target), value: target.value })
     }
   }
 

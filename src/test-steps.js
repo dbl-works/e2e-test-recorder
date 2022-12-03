@@ -1,6 +1,6 @@
 export const TestStepTypes = {
   CLICK: 'CLICK',
-  CHANGE: 'CHANGE',
+  INPUT: 'INPUT',
 }
 
 let lastId = 0
