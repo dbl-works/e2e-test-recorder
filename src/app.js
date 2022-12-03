@@ -1,7 +1,7 @@
 import getSelector from 'get-selector'
 import { testStepToCypressMapper } from './cypress-tests-mappers';
 import { h } from './dom-util';
-import { ButtonOrAnchorClickInteractionHandler } from './interaction-handlers';
+import { ButtonOrAnchorClickInteractionHandler, InputOrTextAreaChangeInteractionHandler } from './interaction-handlers';
 import { addTestStep, dispatch, getState, removeStep, subscribe } from './store';
 import { TestStep } from './test-steps';
 import { waitUntil } from './utils';
@@ -38,13 +38,16 @@ function renderUI({ testSteps = [] }) {
       h('div', { className: 'rounded-md overflow-hidden h-full relative' },
         h('ol', { id: 'steps', className: 'overflow-scroll h-full' },
           testSteps.map((testStep, i) => {
-            return h('li', { className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
+            return h('li', { 'id': `step-${testStep.id}`, className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
               h('span', { className: 'px-2 text-gray-400' }, `${i + 1}.`),
               h('span', { className: 'font-mono' }, testStepToCypressMapper(testStep)),
               h('button', {
                 className: 'mx-4 hover:opacity-100 opacity-40 transition absolute right-0',
                 onclick: () => {
                   if (!confirm('Are you sure you want to remove this step?')) return
+
+                  console.log('removing step', testStep, getState().testSteps)
+                  console.log('included?', getState().testSteps.includes(testStep))
                   dispatch(removeStep(testStep))
                 }
               },
@@ -60,6 +63,7 @@ function renderUI({ testSteps = [] }) {
 
 const interactionHandlers = [
   ButtonOrAnchorClickInteractionHandler,
+  InputOrTextAreaChangeInteractionHandler,
 ]
 
 function listenToClicks() {
@@ -81,6 +85,18 @@ function listenToClicks() {
     }
   })
 
+  frame.contentDocument.addEventListener('change', (event) => {
+    console.log('change', event, event.target)
+    if (event.target === frame.contentDocument) {
+      return
+    }
+
+    const handler = interactionHandlers.find((interactionHandler) => interactionHandler.canHandle(event))
+    if (handler) {
+      handler.handle(event)
+    }
+  })
+
   frame.contentDocument._listenerIsAdded = true
 }
 
@@ -91,10 +107,6 @@ function eventLoop() {
   setInterval(() => {
     listenToClicks()
   }, 1)
-
-  /* Low Priority */
-  setInterval(() => {
-  }, 50)
 }
 
 function renderTo(target, element) {
@@ -116,21 +128,6 @@ export async function setupApp(element) {
     dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
     dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
     dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
   }
 
   await waitUntil(() => !!frame.contentWindow.document.body);

@@ -32,7 +32,7 @@ const store = createStore(
       console.log(payload)
       return {
         ...state,
-        testSteps: state.testSteps.filter((testStep) => testStep !== payload),
+        testSteps: state.testSteps.filter((testStep) => testStep.id !== payload.id),
       };
     }
   })
