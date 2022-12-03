@@ -23,7 +23,7 @@ export class ButtonOrAnchorClickInteractionHandler {
   static handle(event) {
     const target = this.closestClickable(event.target)
     dispatch(
-      addTestStep(new TestStep('CLICK', {selector: getSelector(target)})
+      addTestStep(new TestStep(TestStepTypes.CLICK, {selector: getSelector(target)})
     ))
   }
 
@@ -58,9 +58,9 @@ export class InputOrTextAreaChangeInteractionHandler {
 
   static makeStep(target) {
     if (this.isCheckboxOrRadio(target)) {
-      return new TestStep('CLICK', { selector: getSelector(target), value: target.checked })
+      return new TestStep(TestStepTypes.CLICK, { selector: getSelector(target), value: target.checked })
     } else {
-      return new TestStep('CHANGE', { selector: getSelector(target), value: target.value })
+      return new TestStep(TestStepTypes.CHANGE, { selector: getSelector(target), value: target.value })
     }
   }
 

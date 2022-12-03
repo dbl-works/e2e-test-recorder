@@ -94,7 +94,7 @@ function listenToEvents() {
     }
   })
 
-  frame.contentDocument.addEventListener('change', (event) => {
+  frame.contentDocument.addEventListener('input', (event) => {
     if (event.target === frame.contentDocument) {
       return
     }
