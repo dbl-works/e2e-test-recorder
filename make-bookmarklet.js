@@ -13,9 +13,10 @@ const cssPath = path.resolve(assetsPath,
   .find((file) => file.startsWith('index.') && file.endsWith('.css'))
 )
 
-const cssContent = fs.readFileSync(cssPath, 'utf8').replaceAll('"', `\\\\"`)
-
-const appendCss = `document.head.appendChild(document.createElement('style')).innerHTML= "${cssContent}"`;
+// It requires those slashes to be escaped multiple times,
+// one in the template and once in appending in the document head
+const cssContent = fs.readFileSync(cssPath, 'utf8').replaceAll('\\', `\\\\\\\\`)
+const appendCss = `document.head.appendChild(document.createElement('style')).innerHTML= \\\`${cssContent}\\\``;
 
 const jsContent = fs.readFileSync(jsPath, 'utf8').replaceAll('`', '\\`').replaceAll('${', '\\${')
 
