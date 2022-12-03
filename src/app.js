@@ -5,6 +5,7 @@ import { ButtonOrAnchorClickInteractionHandler } from './interaction-handlers';
 import { addTestStep, dispatch, getState, removeStep, subscribe } from './store';
 import { TestStep } from './test-steps';
 import { waitUntil } from './utils';
+import morphdom from 'morphdom'
 
 const contentDiv = document.createElement('div');
 contentDiv.className = 'flex flex-col h-full';
@@ -20,7 +21,11 @@ function wrapIntoIframe() {
 
   document.body.append(contentDiv);
 
-  frame.src = window.location.href;
+  if (import.meta.env.VITE_WITH_FAKE_DATA) {
+    frame.src = `${window.location.protocol}//${window.location.host}/second.html`;
+  } else {
+    frame.src = window.location.href
+  }
   frame.className = 'h-full w-full flex-1'
   contentDiv.appendChild(frame);
 }
@@ -103,8 +108,30 @@ export async function setupApp(element) {
 
   renderTo(rootDiv, renderUI(getState()));
   subscribe(() => {
-    renderTo(rootDiv, renderUI(getState()));
+    morphdom(rootDiv.firstChild, renderUI(getState()))
   })
+
+  if (import.meta.env.VITE_WITH_FAKE_DATA) {
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'body button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+    dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
+  }
 
   await waitUntil(() => !!frame.contentWindow.document.body);
 

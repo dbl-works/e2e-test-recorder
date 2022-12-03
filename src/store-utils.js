@@ -1,6 +1,6 @@
 export function createStore(reducer) {
   let state = reducer(undefined, { type: '@@INIT' });
-  const listeners = [];
+  let listeners = [];
 
   return {
     getState() {

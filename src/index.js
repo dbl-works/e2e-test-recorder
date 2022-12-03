@@ -13,4 +13,8 @@ const init = () => {
   setupApp(document.getElementById('root'))
 }
 
+console.log(import.meta.env)
 window.init = init
+if (import.meta.env.VITE_WITH_FAKE_DATA) {
+  init()
+}
