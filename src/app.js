@@ -76,15 +76,14 @@ const interactionHandlers = [
   InputOrTextAreaChangeInteractionHandler,
 ]
 
-function listenToClicks() {
+function listenToEvents() {
   /* Tracks the case where is the iframe has done a full reload. */
   if (frame.contentDocument._listenerIsAdded) {
     return
   }
-  console.log('listening to clicks')
+  console.log('listening to events')
 
   frame.contentDocument.addEventListener('click', (event) => {
-    console.log('click', event, event.target)
     if (event.target === frame.contentDocument) {
       return
     }
@@ -96,7 +95,6 @@ function listenToClicks() {
   })
 
   frame.contentDocument.addEventListener('change', (event) => {
-    console.log('change', event, event.target)
     if (event.target === frame.contentDocument) {
       return
     }
@@ -110,12 +108,11 @@ function listenToClicks() {
   frame.contentDocument._listenerIsAdded = true
 }
 
-
 function eventLoop() {
   console.log('event loop')
   /* High Priority */
   setInterval(() => {
-    listenToClicks()
+    listenToEvents()
   }, 1)
 }
 
@@ -141,8 +138,6 @@ export async function setupApp(element) {
   }
 
   await waitUntil(() => !!frame.contentWindow.document.body);
-
-  listenToClicks()
 
   eventLoop()
 }
