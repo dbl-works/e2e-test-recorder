@@ -13,16 +13,22 @@ function debounce(fn, ms = 5) {
 }
 export class ButtonOrAnchorClickInteractionHandler {
   static canHandle(event) {
-    const target = event.target.closest('a, button') || event.target
+    if (event.type !== 'click') return false
 
-    return ['BUTTON', 'A'].includes(target.nodeName)
+    const target = this.closestClickable(event.target) || event.target
+
+    return ['BUTTON', 'A'].includes(target.nodeName) || target.role?.toLowerCase() === 'button'
   }
 
   static handle(event) {
-    const target = event.target.closest('a, button')
+    const target = this.closestClickable(event.target)
     dispatch(
       addTestStep(new TestStep('CLICK', {selector: getSelector(target)})
     ))
+  }
+
+  static closestClickable(target) {
+    return target.closest('a, button, [role="button"]')
   }
 }
 

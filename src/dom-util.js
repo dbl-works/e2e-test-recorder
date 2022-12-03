@@ -12,6 +12,10 @@ export function h(tag, props, ...childrenOrArray) {
   const children = Array.isArray(childrenOrArray[0]) ? childrenOrArray[0] : childrenOrArray;
 
   children.forEach(child => {
+    if (['undefined', 'null', 'boolean'].includes(typeof child)) {
+      return
+    }
+
     if (!(child instanceof HTMLElement)) {
       child = document.createTextNode(child.toString());
     }

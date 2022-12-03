@@ -36,7 +36,7 @@ function renderUI({ testSteps = [] }) {
     h('div', { className: 'p-8 lg:flex-1 my-2 overflow-hidden' }, [
       h('div', { className: 'flex justify-between py-1'}, [
         'Steps:',
-        h('button', {
+        getState().testSteps.length !== 0 && h('button', {
           className: 'active:bg-slate-600 hover:bg-slate-800 active:shadow-sm shadow-md bg-slate-700 text-sm font-bold px-4 py-1 text-white px-2 rounded',
           onclick: () => {
             navigator.clipboard.writeText(
