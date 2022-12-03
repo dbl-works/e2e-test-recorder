@@ -20,7 +20,7 @@ function wrapIntoIframe() {
 
   document.body.append(contentDiv);
 
-  // frame.src = window.location.href;
+  frame.src = window.location.href;
   frame.className = 'h-full w-full flex-1'
   contentDiv.appendChild(frame);
 }
@@ -105,26 +105,6 @@ export async function setupApp(element) {
   subscribe(() => {
     renderTo(rootDiv, renderUI(getState()));
   })
-
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'body button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form button' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
-  dispatch(addTestStep(new TestStep('CLICK', { selector: 'form a' })))
 
   await waitUntil(() => !!frame.contentWindow.document.body);
 

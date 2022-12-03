@@ -14,4 +14,3 @@ const init = () => {
 }
 
 window.init = init
-init()
