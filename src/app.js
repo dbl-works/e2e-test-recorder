@@ -34,15 +34,25 @@ function renderUI({ testSteps = [] }) {
   return h('div', { className: 'bg-slate-50 flex lg:justify-between flex-col lg:flex-row h-[50vh] lg:h-[40vh]' }, [
     h('div', { className: 'lg:flex-1 bg-blue-100 p-8 lg:w-1/2' }, 'Other options from here'),
     h('div', { className: 'p-8 lg:flex-1 my-2 overflow-hidden' }, [
-      h('div', {}, 'Steps:'),
+      h('div', { className: 'flex justify-between py-1'}, [
+        'Steps:',
+        h('button', {
+          className: 'active:bg-slate-600 hover:bg-slate-800 active:shadow-sm shadow-md bg-slate-700 text-sm font-bold px-4 py-1 text-white px-2 rounded',
+          onclick: () => {
+            navigator.clipboard.writeText(
+              getState().testSteps.map(testStepToCypressMapper).join('\n')
+            )
+          },
+        }, 'Copy Code 📋')
+      ]),
       h('div', { className: 'rounded-md overflow-hidden h-full relative' },
         h('ol', { id: 'steps', className: 'overflow-scroll h-full' },
           testSteps.map((testStep, i) => {
             return h('li', { 'id': `step-${testStep.id}`, className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
-              h('span', { className: 'px-2 text-gray-400' }, `${i + 1}.`),
+              h('span', { className: 'px-2 text-gray-400 select-none' }, `${i + 1}.`),
               h('span', { className: 'font-mono' }, testStepToCypressMapper(testStep)),
               h('button', {
-                className: 'mx-4 hover:opacity-100 opacity-40 transition absolute right-0',
+                className: 'mx-4 hover:opacity-100 opacity-40 transition absolute right-0 select-none',
                 onclick: () => {
                   if (!confirm('Are you sure you want to remove this step?')) return
 
