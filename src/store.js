@@ -6,7 +6,7 @@ const initialState = {
 };
 
 export const addTestStep = createAction('ADD_TEST_STEP')
-
+export const updateStep = createAction('UPDATE_STEP')
 export const removeStep = createAction('REMOVE_STEP')
 
 const store = createStore(
@@ -16,6 +16,17 @@ const store = createStore(
         ...state,
         testSteps: [...state.testSteps, payload],
       };
+    },
+    [updateStep]: (state, { payload }) => {
+      return {
+        ...state,
+        testSteps: state.testSteps.map((step) => {
+          if (step.id === payload.id) {
+            return payload;
+          }
+          return step;
+        }),
+      }
     },
     [removeStep]: (state, { payload }) => {
       console.log(payload)
