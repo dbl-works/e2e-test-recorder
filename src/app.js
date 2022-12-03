@@ -31,9 +31,9 @@ function wrapIntoIframe() {
 }
 
 function renderUI({ testSteps = [] }) {
-  return h('div', { className: 'bg-slate-50 flex justify-between flex-col lg:flex-row h-[50vh] lg:h-[40vh]' }, [
-    h('div', { className: 'flex-1 bg-blue-100 p-8 lg:w-1/2' }, 'Other options from here'),
-    h('div', { className: 'p-8 flex-1 max-h-full' }, [
+  return h('div', { className: 'bg-slate-50 flex lg:justify-between flex-col lg:flex-row h-[50vh] lg:h-[40vh]' }, [
+    h('div', { className: 'lg:flex-1 bg-blue-100 p-8 lg:w-1/2' }, 'Other options from here'),
+    h('div', { className: 'p-8 lg:flex-1 my-2 overflow-hidden' }, [
       h('div', {}, 'Steps:'),
       h('div', { className: 'rounded-md overflow-hidden h-full relative' },
         h('ol', { id: 'steps', className: 'overflow-scroll h-full' },
