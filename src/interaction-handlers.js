@@ -17,7 +17,7 @@ export class ButtonOrAnchorClickInteractionHandler {
 
     const target = this.closestClickable(event.target) || event.target
 
-    return ['BUTTON', 'A'].includes(target.nodeName) || target.role?.toLowerCase() === 'button'
+    return ['BUTTON', 'A'].includes(target.nodeName) || ['button', 'link'].includes(target.role?.toLowerCase())
   }
 
   static handle(event) {
@@ -28,7 +28,7 @@ export class ButtonOrAnchorClickInteractionHandler {
   }
 
   static closestClickable(target) {
-    return target.closest('a, button, [role="button"]')
+    return target.closest('a, button, [role="button"], [role="link"]')
   }
 }
 
