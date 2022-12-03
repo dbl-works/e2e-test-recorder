@@ -32,8 +32,8 @@ function wrapIntoIframe() {
 
 function renderUI({ testSteps = [] }) {
   return h('div', { className: 'bg-slate-50 flex lg:justify-between flex-col lg:flex-row h-[50vh] lg:h-[40vh]' }, [
-    h('div', { className: 'lg:flex-1 bg-blue-100 p-8 lg:w-1/2' }, 'Other options from here'),
-    h('div', { className: 'p-8 lg:flex-1 my-2 overflow-hidden' }, [
+    h('div', { className: 'lg:flex-1 bg-blue-100 p-2 lg:w-1/2' }, 'Other options from here'),
+    h('div', { className: 'p-2 lg:flex-1 overflow-hidden' }, [
       h('div', { className: 'flex justify-between py-1'}, [
         'Steps:',
         getState().testSteps.length !== 0 && h('button', {
@@ -45,7 +45,7 @@ function renderUI({ testSteps = [] }) {
           },
         }, 'Copy Code 📋')
       ]),
-      h('div', { className: 'rounded-md overflow-hidden h-full relative' },
+      h('div', { className: 'rounded-md overflow-hidden h-full pb-8 relative' },
         h('ol', { id: 'steps', className: 'overflow-scroll h-full' },
           testSteps.map((testStep, i) => {
             return h('li', { 'id': `step-${testStep.id}`, className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
