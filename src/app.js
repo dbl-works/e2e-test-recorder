@@ -124,11 +124,11 @@ function TestSelectionPanel() {
     'div',
     {
       className:
-        'flex items-center space-x-2 justify-between my-2 bg-slate-100 rounded-md px-6  py-4 overflow-hidden',
+        'flex items-center space-x-2 justify-between relative my-2 bg-slate-100 rounded-md px-6  py-4 overflow-hidden',
     },
     [
       h('div', { className: 'flex space-x-2 items-center' }, [
-        h('span', { className: 'text-sm' }, 'Selected:'),
+        h('span', { className: 'text-sm select-none' }, 'Selected:'),
         h(
           'pre',
           {},
@@ -137,11 +137,12 @@ function TestSelectionPanel() {
       ]),
       h(
         'div',
-        {},
+        { className: 'flex items-center' },
         h(
           'button',
           {
-            className: 'text-2xl',
+            className:
+              'text-2xl absolute h-full right-0 px-2 bg-gradient-to-l from-slate-50 to-transparent',
             onclick: () => {
               DocumentSelectionHandler.handle({ target: frame.contentDocument })
               dispatch(setSelection(null))
