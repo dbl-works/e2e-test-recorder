@@ -237,7 +237,7 @@ function renderUI({ testSteps = [], compactMode }) {
                   {
                     id: `step-${testStep.id}`,
                     className:
-                      'p-4 odd:bg-slate-200 even:bg-slate-100 relative',
+                      'p-4 odd:bg-slate-200 even:bg-slate-100 relative flex items-center',
                   },
                   h(
                     'span',
