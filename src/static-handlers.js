@@ -1,4 +1,4 @@
-import getSelector from 'get-selector'
+import { getSelector } from './selector-utils'
 import { addTestStep, dispatch, getState } from './store'
 import { TestStep, TestStepTypes } from './test-steps'
 

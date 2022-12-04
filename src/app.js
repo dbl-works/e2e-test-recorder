@@ -1,4 +1,3 @@
-import getSelector from 'get-selector'
 import {
   testStepToCypressContainsMapper,
   testStepToCypressSelectorMapper,
@@ -89,8 +88,8 @@ function MapperSelector() {
 
 function OptionsPanel() {
   return h('div', { className: 'lg:flex-1 bg-slate-50 pt-0 p-2 lg:w-1/2' }, [
-    h('div', { className: 'flex justify-between' }, [
-      h('h2', { className: 'text-xl' }, 'Mappers:'),
+    h('div', { className: 'flex space-x-4' }, [
+      h('h2', { className: 'font-bold' }, 'Translator:'),
       h(MapperSelector),
     ]),
     h(TestSelectionPanel),
