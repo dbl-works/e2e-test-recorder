@@ -111,7 +111,7 @@ function CompactPanel({ testSteps = [] }) {
 
   return h(
     'div',
-    { className: 'bg-slate-100 items-stretch p-2 flex justify-between' },
+    { className: 'bg-slate-100 items-stretch p-2 flex justify-between px-4' },
     h('div', { className: 'flex items-center space-x-4' }, [
       h(TogglePanel),
       h(MapperSelector),
@@ -122,15 +122,17 @@ function CompactPanel({ testSteps = [] }) {
         {
           id: `test-step-${lastStep.id}`,
           className:
-            'w-1/2 h-full overflow-hidden font-mono rounded-md animate-[pulse_1.5s_ease-in-out]',
+            'w-1/2 h-full flex overflow-hidden font-mono rounded-md animate-[pulse_1.5s_ease-in-out]',
         },
         [
           h(
-            'span',
+            'div',
             {
-              className: 'h-full p-3 block bg-slate-100 relative',
+              className:
+                'flex items-center space-x-2 h-full p-3 flex-1 bg-white relative',
             },
-            getSelectedMapper()(lastStep)
+            h('pre', { className: 'select-none font-bold' }, '>'),
+            h('pre', {}, getSelectedMapper()(lastStep))
           ),
         ]
       )
@@ -192,7 +194,7 @@ function renderUI({ testSteps = [], compactMode }) {
                     `${i + 1}.`
                   ),
                   h(
-                    'span',
+                    'pre',
                     {
                       className: 'font-mono outline-none',
                       contentEditable: true,
