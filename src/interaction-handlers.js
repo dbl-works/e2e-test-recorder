@@ -17,18 +17,26 @@ export class ButtonOrAnchorClickInteractionHandler {
 
     const target = this.closestClickable(event.target) || event.target
 
-    return ['BUTTON', 'A'].includes(target.nodeName) || ['button', 'link'].includes(target.role?.toLowerCase())
+    return this.isButton(target)
   }
 
   static handle(event) {
     const target = this.closestClickable(event.target)
     dispatch(
-      addTestStep(new TestStep(TestStepTypes.CLICK, {selector: getSelector(target)})
+      addTestStep(new TestStep(TestStepTypes.CLICK, {selector: getSelector(target), content: target.textContent || target.value })
     ))
   }
 
+  static isButton(target) {
+    if (target.tagName === 'INPUT') {
+      return ['submit', 'button', 'reset'].includes(target.type.toLowerCase())
+    }
+
+    return ['BUTTON', 'A'].includes(target.nodeName) || ['button', 'link'].includes(target.role?.toLowerCase())
+  }
+
   static closestClickable(target) {
-    return target.closest('a, button, [role="button"], [role="link"]')
+    return target.closest(`a, button, [role="button"], [role="link"], input[type="submit"], input[type="button"], input[type="reset"]`)
   }
 }
 

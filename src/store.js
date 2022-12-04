@@ -11,6 +11,17 @@ export const updateStep = createAction('UPDATE_STEP')
 export const removeStep = createAction('REMOVE_STEP')
 export const selectMapper = createAction('SELECT_MAPPER')
 
+
+/**
+ * @typedef {Object} Store
+ * @property {() => initialState} getState
+ * @property {(action: {type: string, payload: any}) => void} dispatch
+ * @property {(listener: () => void) => () => void} subscribe
+ */
+
+/**
+ * @type {Store}
+ */
 const store = createStore(
   createReducer(initialState, {
     [addTestStep]: (state, { payload }) => {
