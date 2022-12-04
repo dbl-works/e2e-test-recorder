@@ -51,7 +51,7 @@ const mappers = {
 const getSelectedMapper = () => getState().selectedMapper
 
 function OptionsPanel() {
-  return h('div', { className: 'lg:flex-1 bg-blue-100 p-2 lg:w-1/2' }, [
+  return h('div', { className: 'lg:flex-1 bg-slate-50 p-2 lg:w-1/2' }, [
     h('div', { className: 'flex justify-between' }, [
       h('h2', { className: 'text-xl' }, 'Mappers:'),
       h(
