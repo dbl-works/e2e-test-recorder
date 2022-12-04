@@ -10,6 +10,8 @@ export function fallbackTestStepsToCypressMapper({ type, args }) {
       return `cy.get('${args.selector}').first().${
         args.checked ? 'check' : 'uncheck'
       }()`
+    case TestStepTypes.CONTAIN:
+      return `cy.get('${args.selector}').should('contain.text', '${args.content}')`
     default:
       throw new Error(`Unknown test step type: ${testStep.type}`)
   }

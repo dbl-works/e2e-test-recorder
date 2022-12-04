@@ -18,7 +18,11 @@ export function h(tag, props = {}, ...childrenOrArray) {
   })
 
   children.forEach((child) => {
-    if (['undefined', 'null', 'boolean'].includes(typeof child)) {
+    if (['undefined', 'boolean'].includes(typeof child)) {
+      return
+    }
+
+    if (child === null) {
       return
     }
 

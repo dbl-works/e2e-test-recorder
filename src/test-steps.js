@@ -2,6 +2,7 @@ export const TestStepTypes = {
   CLICK: 'CLICK',
   INPUT: 'INPUT',
   CHECK: 'CHECK',
+  CONTAIN: 'CONTAIN',
 }
 
 let lastId = 0

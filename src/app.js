@@ -14,12 +14,14 @@ import {
   getState,
   removeStep,
   selectMapper,
+  setSelection,
   subscribe,
   toggleCompactMode,
 } from './store'
 import { TestStep } from './test-steps'
 import { waitUntil } from './utils'
 import morphdom from 'morphdom'
+import { DocumentSelectionHandler } from './static-handlers'
 
 const contentDiv = document.createElement('div')
 contentDiv.className = 'flex flex-col h-full'
@@ -91,6 +93,7 @@ function OptionsPanel() {
       h('h2', { className: 'text-xl' }, 'Mappers:'),
       h(MapperSelector),
     ]),
+    h(TestSelectionPanel),
   ])
 }
 
@@ -108,6 +111,47 @@ function TogglePanel() {
       compactMode ? '⏬' : '⏫'
     ),
   ])
+}
+
+function TestSelectionPanel() {
+  const { selection } = getState()
+
+  if (!selection) {
+    return null
+  }
+
+  return h(
+    'div',
+    {
+      className:
+        'flex items-center space-x-2 justify-between my-2 bg-slate-100 rounded-md px-6  py-4 overflow-hidden',
+    },
+    [
+      h('div', { className: 'flex space-x-2 items-center' }, [
+        h('span', { className: 'text-sm' }, 'Selected:'),
+        h(
+          'pre',
+          {},
+          `cy.get('...').should('contain.text', '${selection.toString()}')`
+        ),
+      ]),
+      h(
+        'div',
+        {},
+        h(
+          'button',
+          {
+            className: 'text-2xl',
+            onclick: () => {
+              DocumentSelectionHandler.handle({ target: frame.contentDocument })
+              dispatch(setSelection(null))
+            },
+          },
+          '👉'
+        )
+      ),
+    ]
+  )
 }
 
 function CompactPanel({ testSteps = [] }) {
@@ -280,6 +324,14 @@ function listenToEvents() {
     )
     if (handler) {
       handler.handle(event)
+    }
+  })
+
+  frame.contentDocument.addEventListener('selectionchange', (event) => {
+    if (DocumentSelectionHandler.canHandle(event)) {
+      dispatch(setSelection(event.target.getSelection()))
+    } else {
+      dispatch(setSelection(null))
     }
   })
 

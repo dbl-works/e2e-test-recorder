@@ -4,6 +4,7 @@ const initialState = {
   testSteps: [],
   selectedMapper: null,
   compactMode: false,
+  selection: null,
 }
 
 export const addTestStep = createAction('ADD_TEST_STEP')
@@ -11,6 +12,7 @@ export const updateStep = createAction('UPDATE_STEP')
 export const removeStep = createAction('REMOVE_STEP')
 export const selectMapper = createAction('SELECT_MAPPER')
 export const toggleCompactMode = createAction('TOGGLE_COMPACT_MODE')
+export const setSelection = createAction('SET_SELECTION')
 
 /**
  * @typedef {Object} Store
@@ -60,6 +62,12 @@ const store = createStore(
       return {
         ...state,
         compactMode: !state.compactMode,
+      }
+    },
+    [setSelection]: (state, { payload }) => {
+      return {
+        ...state,
+        selection: payload,
       }
     },
   })
