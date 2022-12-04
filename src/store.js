@@ -3,12 +3,14 @@ import { createAction, createReducer, createStore } from './store-utils'
 const initialState = {
   testSteps: [],
   selectedMapper: null,
+  compactMode: true,
 }
 
 export const addTestStep = createAction('ADD_TEST_STEP')
 export const updateStep = createAction('UPDATE_STEP')
 export const removeStep = createAction('REMOVE_STEP')
 export const selectMapper = createAction('SELECT_MAPPER')
+export const toggleCompactMode = createAction('TOGGLE_COMPACT_MODE')
 
 /**
  * @typedef {Object} Store
@@ -52,6 +54,12 @@ const store = createStore(
       return {
         ...state,
         selectedMapper: payload,
+      }
+    },
+    [toggleCompactMode]: (state) => {
+      return {
+        ...state,
+        compactMode: !state.compactMode,
       }
     },
   })
