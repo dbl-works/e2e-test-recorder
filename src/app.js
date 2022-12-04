@@ -51,16 +51,15 @@ function renderUI({ testSteps = [] }) {
             return h('li', { 'id': `step-${testStep.id}`, className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
               h('span', { className: 'px-2 text-gray-400 select-none' }, `${i + 1}.`),
               h('span', { className: 'font-mono outline-none', contentEditable: true, oninput: (e) => {
-                testStep.args.override = e.target.innerHTML
+                // Have override only if they user input a different value.
+                const defaultValue = testStepToCypressSelectorMapper({ ...testStep, args: {...testStep.args, override: null } })
+                testStep.args.override = defaultValue === e.target.innerHTML ? null : e.target.innerHTML
               } },
               testStepToCypressSelectorMapper(testStep)),
               h('button', {
                 className: 'mx-4 hover:opacity-100 opacity-40 transition absolute right-0 select-none',
                 onclick: () => {
                   if (!confirm('Are you sure you want to remove this step?')) return
-
-                  console.log('removing step', testStep, getState().testSteps)
-                  console.log('included?', getState().testSteps.includes(testStep))
                   dispatch(removeStep(testStep))
                 }
               },
