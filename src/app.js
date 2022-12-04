@@ -171,7 +171,7 @@ function renderUI({ testSteps = [], compactMode }) {
                     'active:bg-slate-600 hover:bg-slate-800 active:shadow-sm shadow-md bg-slate-700 text-sm font-bold px-4 py-1 text-white px-2 rounded',
                   onclick: () => {
                     navigator.clipboard.writeText(
-                      getState().testSteps.map(getSelectedMapper()).join('\n')
+                      getState().testSteps.map(getSelectedMapper()).join(`\r\n`)
                     )
                   },
                 },

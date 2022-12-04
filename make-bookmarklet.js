@@ -24,6 +24,7 @@ const appendCss = `document.head.appendChild(document.createElement('style')).in
 
 const jsContent = fs
   .readFileSync(jsPath, 'utf8')
+  .replaceAll('\\', `\\\\`)
   .replaceAll('`', '\\`')
   .replaceAll('${', '\\${')
 
