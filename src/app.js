@@ -198,9 +198,9 @@ function renderUI({ testSteps = [], compactMode }) {
                     `${i + 1}.`
                   ),
                   h(
-                    'pre',
+                    'span',
                     {
-                      className: 'inline font-mono outline-none',
+                      className: 'font-mono outline-none',
                       contentEditable: true,
                       oninput: (e) => {
                         // Have override only if they user input a different value.
