@@ -100,7 +100,11 @@ function TogglePanel() {
   return h('div', {}, [
     h(
       'button',
-      { className: 'text-2xl', onclick: () => dispatch(toggleCompactMode()) },
+      {
+        className: 'text-2xl',
+        title: 'Toggle Compact Mode',
+        onclick: () => dispatch(toggleCompactMode()),
+      },
       compactMode ? '⏬' : '⏫'
     ),
   ])
@@ -147,7 +151,7 @@ function renderUI({ testSteps = [], compactMode }) {
   return h(
     'div',
     { className: 'bg-slate-50' },
-    h('div', {}, h(TogglePanel)),
+    h('div', { className: 'pt-2 px-2' }, h(TogglePanel)),
     h(
       'div',
       {
@@ -196,7 +200,7 @@ function renderUI({ testSteps = [], compactMode }) {
                   h(
                     'pre',
                     {
-                      className: 'font-mono outline-none',
+                      className: 'inline font-mono outline-none',
                       contentEditable: true,
                       oninput: (e) => {
                         // Have override only if they user input a different value.

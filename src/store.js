@@ -3,7 +3,7 @@ import { createAction, createReducer, createStore } from './store-utils'
 const initialState = {
   testSteps: [],
   selectedMapper: null,
-  compactMode: true,
+  compactMode: false,
 }
 
 export const addTestStep = createAction('ADD_TEST_STEP')
