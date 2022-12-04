@@ -86,7 +86,7 @@ function MapperSelector() {
 }
 
 function OptionsPanel() {
-  return h('div', { className: 'lg:flex-1 bg-slate-50 p-2 lg:w-1/2' }, [
+  return h('div', { className: 'lg:flex-1 bg-slate-50 pt-0 p-2 lg:w-1/2' }, [
     h('div', { className: 'flex justify-between' }, [
       h('h2', { className: 'text-xl' }, 'Mappers:'),
       h(MapperSelector),
@@ -151,7 +151,7 @@ function renderUI({ testSteps = [], compactMode }) {
   return h(
     'div',
     { className: 'bg-slate-50' },
-    h('div', { className: 'pt-2 px-2' }, h(TogglePanel)),
+    h('div', { className: 'pt-4 px-4' }, h(TogglePanel)),
     h(
       'div',
       {
@@ -160,7 +160,7 @@ function renderUI({ testSteps = [], compactMode }) {
       },
       [
         h(OptionsPanel),
-        h('div', { className: 'p-2 lg:flex-1 overflow-hidden' }, [
+        h('div', { className: 'pt-0 p-2 lg:flex-1 overflow-hidden' }, [
           h('div', { className: 'flex justify-between py-1' }, [
             'Steps:',
             getState().testSteps.length !== 0 &&
