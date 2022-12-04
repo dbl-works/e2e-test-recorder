@@ -1,4 +1,4 @@
-import getSelector from 'get-selector'
+import { getSelector } from './selector-utils'
 import { addTestStep, dispatch, getState, removeStep } from './store'
 import { TestStep, TestStepTypes } from './test-steps'
 
@@ -10,6 +10,15 @@ function debounce(fn, ms = 5) {
   timeoutId = setTimeout(fn, ms)
 }
 export class ButtonOrAnchorClickInteractionHandler {
+  // TODO: use this pattern
+  static register(document) {
+    document.addEventListener('click', (event) => {
+      if (this.canHandle(event)) {
+        this.handle(event)
+      }
+    })
+  }
+
   static canHandle(event) {
     if (event.type !== 'click') return false
 
