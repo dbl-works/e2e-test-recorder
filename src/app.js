@@ -59,17 +59,30 @@ function OptionsPanel() {
         { className: 'space-x-2' },
         Object.keys(mappers).map((mapperName) => {
           const mapper = mappers[mapperName]
-          return h('label', { for: `mapper-${mapperName}` }, [
-            h('input', {
-              type: 'radio',
-              onclick: () => dispatch(selectMapper(mapper)),
-              id: `mapper-${mapperName}`,
-              name: 'mapper',
-              value: mapperName,
-              checked: mapper === getSelectedMapper(),
-            }),
-            mapperName,
-          ])
+          return h(
+            'label',
+            {
+              for: `mapper-${mapperName}`,
+              className: `${
+                mapper === getSelectedMapper() ? 'bg-gray-600' : 'bg-gray-400'
+              } rounded-md px-2 py-1 text-white text-sm font-bold cursor-pointer
+              `,
+            },
+            [
+              h('input', {
+                type: 'radio',
+                className: 'mr-1 hidden',
+                onclick: () => dispatch(selectMapper(mapper)),
+                id: `mapper-${mapperName}`,
+                name: 'mapper',
+                value: mapperName,
+                checked: mapper === getSelectedMapper(),
+              }),
+              mapperName,
+              mapper === getSelectedMapper() &&
+                h('span', { className: 'pl-1' }, '✅'),
+            ]
+          )
         })
       ),
     ]),
