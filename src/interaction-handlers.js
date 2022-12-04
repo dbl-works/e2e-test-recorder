@@ -1,10 +1,8 @@
-import getSelector from "get-selector"
-import { addTestStep, dispatch, getState, removeStep } from "./store"
-import { TestStep, TestStepTypes } from "./test-steps"
-
+import getSelector from 'get-selector'
+import { addTestStep, dispatch, getState, removeStep } from './store'
+import { TestStep, TestStepTypes } from './test-steps'
 
 const peekTestSteps = () => getState().testSteps.concat().reverse()[0]
-
 
 let timeoutId = null
 function debounce(fn, ms = 5) {
@@ -23,8 +21,13 @@ export class ButtonOrAnchorClickInteractionHandler {
   static handle(event) {
     const target = this.closestClickable(event.target)
     dispatch(
-      addTestStep(new TestStep(TestStepTypes.CLICK, {selector: getSelector(target), content: target.textContent || target.value })
-    ))
+      addTestStep(
+        new TestStep(TestStepTypes.CLICK, {
+          selector: getSelector(target),
+          content: target.textContent || target.value,
+        })
+      )
+    )
   }
 
   static isButton(target) {
@@ -32,11 +35,16 @@ export class ButtonOrAnchorClickInteractionHandler {
       return ['submit', 'button', 'reset'].includes(target.type.toLowerCase())
     }
 
-    return ['BUTTON', 'A'].includes(target.nodeName) || ['button', 'link'].includes(target.role?.toLowerCase())
+    return (
+      ['BUTTON', 'A'].includes(target.nodeName) ||
+      ['button', 'link'].includes(target.role?.toLowerCase())
+    )
   }
 
   static closestClickable(target) {
-    return target.closest(`a, button, [role="button"], [role="link"], input[type="submit"], input[type="button"], input[type="reset"]`)
+    return target.closest(
+      `a, button, [role="button"], [role="link"], input[type="submit"], input[type="button"], input[type="reset"]`
+    )
   }
 }
 
@@ -57,7 +65,12 @@ export class InputOrTextAreaChangeInteractionHandler {
     // Needs to be debounced here because focusing the input will trigger a change event.
     debounce(() => {
       // If the last test step is the same as the new one but with a different value (i.e. input with '' then with a value), we should replace it.
-      if ([newStep.type, lastTestStep?.type].every((t) => t === TestStepTypes.INPUT) && lastTestStep?.args?.selector === newStep.args.selector) {
+      if (
+        [newStep.type, lastTestStep?.type].every(
+          (t) => t === TestStepTypes.INPUT
+        ) &&
+        lastTestStep?.args?.selector === newStep.args.selector
+      ) {
         dispatch(removeStep(lastTestStep))
       }
       dispatch(addTestStep(newStep))
@@ -66,9 +79,15 @@ export class InputOrTextAreaChangeInteractionHandler {
 
   static makeStep(target) {
     if (this.isCheckboxOrRadio(target)) {
-      return new TestStep(TestStepTypes.CHECK, { selector: getSelector(target), checked: target.checked })
+      return new TestStep(TestStepTypes.CHECK, {
+        selector: getSelector(target),
+        checked: target.checked,
+      })
     } else {
-      return new TestStep(TestStepTypes.INPUT, { selector: getSelector(target), value: target.value })
+      return new TestStep(TestStepTypes.INPUT, {
+        selector: getSelector(target),
+        value: target.value,
+      })
     }
   }
 
@@ -76,4 +95,3 @@ export class InputOrTextAreaChangeInteractionHandler {
     return ['checkbox', 'radio'].includes(target.type)
   }
 }
-

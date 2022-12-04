@@ -1,4 +1,4 @@
-import { TestStepTypes } from "./test-steps"
+import { TestStepTypes } from './test-steps'
 
 export function fallbackTestStepsToCypressMapper({ type, args }) {
   switch (type) {
@@ -7,7 +7,9 @@ export function fallbackTestStepsToCypressMapper({ type, args }) {
       // They shared by all mappers.
       return `cy.get('${args.selector}').type('${args.value}')`
     case TestStepTypes.CHECK:
-      return `cy.get('${args.selector}').first().${args.checked ? 'check' : 'uncheck'}()`
+      return `cy.get('${args.selector}').first().${
+        args.checked ? 'check' : 'uncheck'
+      }()`
     default:
       throw new Error(`Unknown test step type: ${testStep.type}`)
   }
@@ -38,4 +40,3 @@ export function testStepToCypressContainsMapper({ type, args }) {
       return fallbackTestStepsToCypressMapper({ type, args })
   }
 }
-
