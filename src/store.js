@@ -3,11 +3,13 @@ import { createAction, createReducer, createStore } from "./store-utils";
 
 const initialState = {
   testSteps: [],
+  selectedMapper: null,
 };
 
 export const addTestStep = createAction('ADD_TEST_STEP')
 export const updateStep = createAction('UPDATE_STEP')
 export const removeStep = createAction('REMOVE_STEP')
+export const selectMapper = createAction('SELECT_MAPPER')
 
 const store = createStore(
   createReducer(initialState, {
@@ -33,6 +35,12 @@ const store = createStore(
       return {
         ...state,
         testSteps: state.testSteps.filter((testStep) => testStep.id !== payload.id),
+      };
+    },
+    [selectMapper]: (state, { payload }) => {
+      return {
+        ...state,
+        selectedMapper: payload,
       };
     }
   })

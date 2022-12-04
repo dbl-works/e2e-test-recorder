@@ -30,9 +30,14 @@ function wrapIntoIframe() {
   contentDiv.appendChild(frame);
 }
 
+
+function OptionsPanel() {
+  return h('div', { className: 'lg:flex-1 bg-blue-100 p-2 lg:w-1/2' }, 'Other options from here')
+}
+
 function renderUI({ testSteps = [] }) {
   return h('div', { className: 'bg-slate-50 flex lg:justify-between flex-col lg:flex-row h-[50vh] lg:h-[40vh]' }, [
-    h('div', { className: 'lg:flex-1 bg-blue-100 p-2 lg:w-1/2' }, 'Other options from here'),
+    h(OptionsPanel),
     h('div', { className: 'p-2 lg:flex-1 overflow-hidden' }, [
       h('div', { className: 'flex justify-between py-1'}, [
         'Steps:',
