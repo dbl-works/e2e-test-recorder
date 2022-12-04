@@ -1,5 +1,5 @@
 import getSelector from 'get-selector'
-import { testStepToCypressMapper } from './cypress-tests-mappers';
+import { testStepToCypressSelectorMapper } from './cypress-tests-mappers';
 import { h } from './dom-util';
 import { ButtonOrAnchorClickInteractionHandler, InputOrTextAreaChangeInteractionHandler } from './interaction-handlers';
 import { addTestStep, dispatch, getState, removeStep, subscribe } from './store';
@@ -40,7 +40,7 @@ function renderUI({ testSteps = [] }) {
           className: 'active:bg-slate-600 hover:bg-slate-800 active:shadow-sm shadow-md bg-slate-700 text-sm font-bold px-4 py-1 text-white px-2 rounded',
           onclick: () => {
             navigator.clipboard.writeText(
-              getState().testSteps.map(testStepToCypressMapper).join('\n')
+              getState().testSteps.map(testStepToCypressSelectorMapper).join('\n')
             )
           },
         }, 'Copy Code 📋')
@@ -50,7 +50,10 @@ function renderUI({ testSteps = [] }) {
           testSteps.map((testStep, i) => {
             return h('li', { 'id': `step-${testStep.id}`, className: 'p-4 odd:bg-slate-200 even:bg-slate-100 relative' },
               h('span', { className: 'px-2 text-gray-400 select-none' }, `${i + 1}.`),
-              h('span', { className: 'font-mono' }, testStepToCypressMapper(testStep)),
+              h('span', { className: 'font-mono outline-none', contentEditable: true, oninput: (e) => {
+                testStep.args.override = e.target.innerHTML
+              } },
+              testStepToCypressSelectorMapper(testStep)),
               h('button', {
                 className: 'mx-4 hover:opacity-100 opacity-40 transition absolute right-0 select-none',
                 onclick: () => {

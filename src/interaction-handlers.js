@@ -49,7 +49,7 @@ export class InputOrTextAreaChangeInteractionHandler {
     // Needs to be debounced here because focusing the input will trigger a change event.
     debounce(() => {
       // If the last test step is the same as the new one but with a different value (i.e. input with '' then with a value), we should replace it.
-      if ([newStep.type, lastTestStep?.type].every((t) => t !== TestStepTypes.CLICK) && lastTestStep?.args?.selector === newStep.args.selector) {
+      if ([newStep.type, lastTestStep?.type].every((t) => t === TestStepTypes.INPUT) && lastTestStep?.args?.selector === newStep.args.selector) {
         dispatch(removeStep(lastTestStep))
       }
       dispatch(addTestStep(newStep))
@@ -58,7 +58,7 @@ export class InputOrTextAreaChangeInteractionHandler {
 
   static makeStep(target) {
     if (this.isCheckboxOrRadio(target)) {
-      return new TestStep(TestStepTypes.CLICK, { selector: getSelector(target), value: target.checked })
+      return new TestStep(TestStepTypes.CHECK, { selector: getSelector(target), checked: target.checked })
     } else {
       return new TestStep(TestStepTypes.INPUT, { selector: getSelector(target), value: target.value })
     }
