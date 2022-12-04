@@ -159,7 +159,10 @@ function CompactPanel({ testSteps = [] }) {
 
   return h(
     'div',
-    { className: 'bg-slate-100 items-stretch p-2 flex justify-between px-4' },
+    {
+      className:
+        'bg-slate-100 items-stretch p-2 flex flex-col lg:flex-row justify-between px-4',
+    },
     h('div', { className: 'flex items-center space-x-4' }, [
       h(TogglePanel),
       h(MapperSelector),
@@ -170,7 +173,7 @@ function CompactPanel({ testSteps = [] }) {
         {
           id: `test-step-${lastStep.id}`,
           className:
-            'w-1/2 h-full flex overflow-hidden font-mono rounded-md animate-[pulse_1.5s_ease-in-out]',
+            'lg:w-1/2 h-full flex overflow-hidden font-mono rounded-md animate-[pulse_1.5s_ease-in-out]',
         },
         [
           h(
