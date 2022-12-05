@@ -7,6 +7,12 @@
 Run `yarn install` to install the dependencies.
 
 
+## Usage
+
+1. Visit the page/web app you want to record the interactions on.
+2. Click on the bookmark.
+3. Copy the code to your test script :)
+
 ## Build
 
 1. You need to export the bookmarklet by running `yarn build:bookmarklet`
