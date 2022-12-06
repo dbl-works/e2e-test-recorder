@@ -1,4 +1,4 @@
-import { getSelector } from './selector-utils'
+import { getSelector, SUPPORTED_SELECTORS } from './selector-utils'
 import { addTestStep, dispatch, getState } from './store'
 import { TestStep, TestStepTypes } from './test-steps'
 
@@ -10,7 +10,13 @@ export class DocumentSelectionHandler {
   static handle() {
     const { selection } = getState()
 
-    const selector = getSelector(selection.baseNode.parentElement)
+    // In case of selection, we can't always rely on the target element for the selector.
+    // What if it's a big paragraph coming from the DB? Thus, we can use the closest element that has a supported selector.
+    const selector = getSelector(
+      selection.baseNode.parentNode.closest(
+        SUPPORTED_SELECTORS.map((s) => `[${s}]`)
+      )
+    )
 
     dispatch(
       addTestStep(
