@@ -21,6 +21,7 @@ import { TestStep } from './test-steps'
 import { waitUntil } from './utils'
 import morphdom from 'morphdom'
 import { DocumentSelectionHandler } from './static-handlers'
+import { ErrorBase } from './error-base'
 
 const contentDiv = document.createElement('div')
 contentDiv.className = 'flex flex-col h-full'
@@ -390,4 +391,10 @@ export async function setupApp(element) {
   await waitUntil(() => !!frame.contentWindow.document.body)
 
   eventLoop()
+
+  globalWindow.addEventListener('error', ({ error }) => {
+    if (error instanceof ErrorBase) {
+      alert(error.message)
+    }
+  })
 }

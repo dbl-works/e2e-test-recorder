@@ -469,12 +469,9 @@ function-bind@^1.1.1:
   resolved "https://registry.yarnpkg.com/function-bind/-/function-bind-1.1.1.tgz#a56899d3ea3c9bab874bb9773b7c5ede92f4895d"
   integrity sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==
 
-get-selector@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/get-selector/-/get-selector-1.0.4.tgz#ce7b1da24a9eb2ea4c104158b91beed202ad7247"
-  integrity sha512-F5W//a6qQcDDwCqnT6dtEAPZS9zTKyg856JM7kkdzXGrR33sKh5ZPr0QeorAxUZDOWW+6ReSsBuj8CyREBOYkA==
-  dependencies:
-    is-el "^1.0.0"
+get-element-selectors@mohammed-io/get-element-selectors:
+  version "1.0.2"
+  resolved "https://codeload.github.com/mohammed-io/get-element-selectors/tar.gz/65c6d595539c67765ba235f309a03b12b0488922"
 
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
@@ -510,11 +507,6 @@ is-core-module@^2.9.0:
   integrity sha512-RRjxlvLDkD1YJwDbroBHMb+cukurkDWNyHx7D3oNB5x9rb5ogcksMC5wHCadcXoo67gVr/+3GFySh3134zi6rw==
   dependencies:
     has "^1.0.3"
-
-is-el@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/is-el/-/is-el-1.0.0.tgz#418ea5d8f36d3975892cf5c5629d569ab62c5326"
-  integrity sha512-P6e6+F5qoijEFgsQshkK2gnLX4mK5IPbLan7ARrzIfQqlIQh8oynwmcU7x5WVkw1vqlpOJ9HjME49Cy0IM9+hg==
 
 is-extglob@^2.1.1:
   version "2.1.1"

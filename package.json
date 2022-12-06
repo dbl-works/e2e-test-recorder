@@ -15,7 +15,7 @@
     "vite": "^3.2.3"
   },
   "dependencies": {
-    "get-selector": "^1.0.4",
+    "get-element-selectors": "mohammed-io/get-element-selectors",
     "morphdom": "^2.6.1"
   }
 }
