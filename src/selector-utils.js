@@ -1,4 +1,3 @@
-import { getElementSelectors } from 'get-element-selectors'
 import { ErrorBase } from './error-base'
 
 export const SUPPORTED_SELECTORS = [
@@ -10,44 +9,25 @@ export const SUPPORTED_SELECTORS = [
 ]
 
 export function getSelector(element) {
-  const selector = getElementSelectors(element, {
-    attributes: SUPPORTED_SELECTORS,
-    maxResults: 1,
-  })[0]
-
-  validateSelector(selector)
-
-  return selector
+  return getAttributesSelector(element, SUPPORTED_SELECTORS)
 }
 
-export class InvalidSelectorError extends ErrorBase {}
+export function getAttributesSelector(element, attributes) {
+  const attribute = attributes.find((attr) => element.hasAttribute(attr))
 
-export function validateSelector(selector) {
-  if (!selector) {
+  if (!attribute) {
     throw new InvalidSelectorError(
-      `No valid selector found, make sure that the element follows the best practices by by supporting one of the following attribute selectors: ${SUPPORTED_SELECTORS.join(
+      `The element does not have any of the following attributes: ${attributes.join(
         ', '
       )}`
     )
   }
 
-  if (selector.includes('>')) {
-    throw new InvalidSelectorError(
-      `The element itself should have one of the valid attribute selectors: ${SUPPORTED_SELECTORS.join(
-        ', '
-      )}; not its ancestors.`
-    )
+  if (attribute === 'id') {
+    return `#${element.getAttribute(attribute)}`
   }
+
+  return `[${attribute}="${element.getAttribute(attribute)}"]`
 }
 
-export function simplifySelector(document, fullSelector) {
-  const descends = fullSelector.split(' > ')
-
-  for (let i = 1; i <= descends.length; i++) {
-    const selector = descends.slice(-i).join(' > ')
-
-    if (document.querySelectorAll(selector).length === 1) {
-      return selector
-    }
-  }
-}
+export class InvalidSelectorError extends ErrorBase {}
