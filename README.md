@@ -35,3 +35,5 @@ Run `yarn install` to install the dependencies.
 - [ ] Organize the interaction handles to have the `register` method to register the events.
 
 - [ ] Support `TestStepSuggestion` that will be shown if a condition met.
+
+- [ ] Support composable TestSteps, like `within()`
