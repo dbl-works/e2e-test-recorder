@@ -15,6 +15,8 @@ export function getSelector(element) {
 export function getAttributesSelector(element, attributes) {
   const attribute = attributes.find((attr) => element.hasAttribute(attr))
 
+  // TODO: this should be related to the mapper.
+  // For example, if the mapper is for .content() selector, it should not be an error.
   if (!attribute) {
     throw new InvalidSelectorError(
       `The element does not have any of the following attributes: ${attributes.join(
