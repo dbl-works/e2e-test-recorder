@@ -24,7 +24,9 @@ Run `yarn install` to install the dependencies.
 
 ## Todo
 
-- [ ] Let it suggest using a test id like `data-test-id` to the user.
+- [x] Let it suggest using a test id like `data-cy` or `data-testid` to the user.
+
+- [ ] Link the selector failure to the mapper (i.e. cypress contains mapper should not fail when there's no selector)
 
 - [ ] Move the UI code to another module
 
