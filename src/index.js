@@ -1,4 +1,4 @@
-import './style.css'
+import './css/index.css'
 import { setupApp } from './app'
 
 const globalWindow = Function('return window')()

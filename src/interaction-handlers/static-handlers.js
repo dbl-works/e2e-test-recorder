@@ -1,8 +1,21 @@
-import { getSelector, SUPPORTED_SELECTORS } from './selector-utils'
-import { addTestStep, dispatch, getState } from './store'
-import { TestStep, TestStepTypes } from './test-steps'
+import {
+  getSelector,
+  SUPPORTED_SELECTORS,
+} from '../framework-mappers/cypress/selector-utils'
+import { addTestStep, dispatch, getState, setSelection } from '../state/store'
+import { TestStep, TestStepTypes } from '../models/test-steps'
 
 export class DocumentSelectionHandler {
+  static register(document) {
+    document.addEventListener('selectionchange', (event) => {
+      if (this.canHandle(event)) {
+        dispatch(setSelection(event.target.getSelection()))
+      } else {
+        dispatch(setSelection(null))
+      }
+    })
+  }
+
   static canHandle(event) {
     return !!event.target.getSelection().toString()
   }

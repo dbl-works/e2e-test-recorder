@@ -1,10 +1,11 @@
-import { createAction, createReducer, createStore } from './store-utils'
+import { createAction, createReducer, createStore } from '../utils/store-utils'
 
 const initialState = {
   testSteps: [],
   selectedMapper: null,
   compactMode: false,
   selection: null,
+  frame: null,
 }
 
 export const addTestStep = createAction('ADD_TEST_STEP')
@@ -13,6 +14,7 @@ export const removeStep = createAction('REMOVE_STEP')
 export const selectMapper = createAction('SELECT_MAPPER')
 export const toggleCompactMode = createAction('TOGGLE_COMPACT_MODE')
 export const setSelection = createAction('SET_SELECTION')
+export const setFrame = createAction('SET_FRAME')
 
 /**
  * @typedef {Object} Store
@@ -68,6 +70,12 @@ const store = createStore(
       return {
         ...state,
         selection: payload,
+      }
+    },
+    [setFrame]: (state, { payload }) => {
+      return {
+        ...state,
+        frame: payload,
       }
     },
   })

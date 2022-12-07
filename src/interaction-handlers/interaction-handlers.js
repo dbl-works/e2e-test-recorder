@@ -1,6 +1,5 @@
-import { getSelector } from './selector-utils'
-import { addTestStep, dispatch, getState, removeStep } from './store'
-import { TestStep, TestStepTypes } from './test-steps'
+import { addTestStep, dispatch, getState, removeStep } from '../state/store'
+import { TestStep, TestStepTypes } from '../models/test-steps'
 
 const peekTestSteps = () => getState().testSteps.concat().reverse()[0]
 
@@ -10,16 +9,23 @@ function debounce(fn, ms = 5) {
   timeoutId = setTimeout(fn, ms)
 }
 export class ButtonOrAnchorClickInteractionHandler {
-  // TODO: use this pattern
-  static register(document) {
+  static register(document, { getMapper }) {
+    const instance = new this({ getMapper })
     document.addEventListener('click', (event) => {
-      if (this.canHandle(event)) {
-        this.handle(event)
+      if (instance.canHandle(event)) {
+        instance.handle(event)
       }
     })
   }
 
-  static canHandle(event) {
+  constructor({ getMapper }) {
+    /**
+     * @type {() => typeof import('../framework-mappers/framework-mapper-base').FrameworkMapperBase}')}
+     */
+    this.getMapper = getMapper
+  }
+
+  canHandle(event) {
     if (event.type !== 'click') return false
 
     const target = this.closestClickable(event.target) || event.target
@@ -27,19 +33,23 @@ export class ButtonOrAnchorClickInteractionHandler {
     return this.isButton(target)
   }
 
-  static handle(event) {
+  handle(event) {
     const target = this.closestClickable(event.target)
     dispatch(
       addTestStep(
         new TestStep(TestStepTypes.CLICK, {
-          selector: getSelector(target),
+          selector: this.getSelector(target),
           content: target.textContent || target.value,
         })
       )
     )
   }
 
-  static isButton(target) {
+  getSelector(element) {
+    return this.getMapper().getSelector(element)
+  }
+
+  isButton(target) {
     if (target.tagName === 'INPUT') {
       return ['submit', 'button', 'reset'].includes(target.type.toLowerCase())
     }
@@ -50,21 +60,42 @@ export class ButtonOrAnchorClickInteractionHandler {
     )
   }
 
-  static closestClickable(target) {
+  closestClickable(target) {
     return target.closest(
       `a, button, [role="button"], [role="link"], input[type="submit"], input[type="button"], input[type="reset"]`
     )
   }
 }
 
-export class InputOrTextAreaChangeInteractionHandler {
-  static canHandle(event) {
+export class InputOrTextAreaInputInteractionHandler {
+  static register(document, { getMapper }) {
+    const instance = new this({ getMapper })
+
+    document.addEventListener('input', (event) => {
+      if (event.target === frame.contentDocument) {
+        return
+      }
+
+      if (this.canHandle(event)) {
+        this.handle(event)
+      }
+    })
+  }
+
+  constructor({ getMapper }) {
+    /**
+     * @type {() => typeof import('../framework-mappers/framework-mapper-base').FrameworkMapperBase}')}
+     */
+    this.getMapper = getMapper
+  }
+
+  canHandle(event) {
     const target = event.target
 
     return ['INPUT', 'TEXTAREA'].includes(target.nodeName)
   }
 
-  static handle(event) {
+  handle(event) {
     const target = event.target
 
     const lastTestStep = peekTestSteps()
@@ -86,7 +117,7 @@ export class InputOrTextAreaChangeInteractionHandler {
     })
   }
 
-  static makeStep(target) {
+  makeStep(target) {
     if (this.isCheckboxOrRadio(target)) {
       return new TestStep(TestStepTypes.CHECK, {
         selector: getSelector(target),
@@ -100,7 +131,7 @@ export class InputOrTextAreaChangeInteractionHandler {
     }
   }
 
-  static isCheckboxOrRadio(target) {
+  isCheckboxOrRadio(target) {
     return ['checkbox', 'radio'].includes(target.type)
   }
 }

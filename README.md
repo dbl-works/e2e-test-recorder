@@ -26,13 +26,15 @@ Run `yarn install` to install the dependencies.
 
 - [x] Let it suggest using a test id like `data-cy` or `data-testid` to the user.
 
-- [ ] Link the selector failure to the mapper (i.e. cypress contains mapper should not fail when there's no selector)
+- [x] Link the selector failure to the mapper (i.e. cypress contains mapper should not fail when there's no selector)
 
-- [ ] Move the UI code to another module
+- [x] Move the UI code to a separate module
+
+- [ ] Support `select` and `input[type=file]`
 
 - [ ] Write tests for the interaction handlers.
 
-- [ ] Organize the interaction handles to have the `register` method to register the events.
+- [x] Organize the interaction handles to have the `register` method to register the events.
 
 - [ ] Support `TestStepSuggestion` that will be shown if a condition met.
 

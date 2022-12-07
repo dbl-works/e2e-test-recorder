@@ -1,4 +1,4 @@
-import { ErrorBase } from './error-base'
+import { ErrorBase } from '../../utils/error-base'
 
 export const SUPPORTED_SELECTORS = [
   'data-cy',
@@ -18,11 +18,7 @@ export function getAttributesSelector(element, attributes) {
   // TODO: this should be related to the mapper.
   // For example, if the mapper is for .content() selector, it should not be an error.
   if (!attribute) {
-    throw new InvalidSelectorError(
-      `The element does not have any of the following attributes: ${attributes.join(
-        ', '
-      )}`
-    )
+    return null
   }
 
   if (attribute === 'id') {

@@ -18,4 +18,24 @@ export class TestStep {
     this.type = type
     this.args = args
   }
+
+  get selector() {
+    return this.args.selector
+  }
+
+  get content() {
+    return this.args.content
+  }
+
+  get value() {
+    return this.args.value
+  }
+
+  get override() {
+    return this.args.override
+  }
+
+  set override(value) {
+    this.args.override = value
+  }
 }

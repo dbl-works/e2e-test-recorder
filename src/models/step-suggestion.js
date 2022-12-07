@@ -1,6 +1,6 @@
 let lastId = 0
 
-export class PossibleSuggestion {
+export class StepSuggestion {
   constructor(name, description, args) {
     // TODO: suggest ``cy.get('...').should('contain.text', '${selection.toString()}')`
     this.id = (++lastId).toString()
