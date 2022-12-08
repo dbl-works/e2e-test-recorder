@@ -38,4 +38,6 @@ Run `yarn install` to install the dependencies.
 
 - [ ] Support `TestStepSuggestion` that will be shown if a condition met.
 
+- [ ] Suggest `keypress` and `keyup`
+
 - [ ] Support composable TestSteps, like `within()`

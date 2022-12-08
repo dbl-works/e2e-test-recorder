@@ -94,6 +94,8 @@ export class InputOrTextAreaInputInteractionHandler {
   handle(event: Event) {
     const target = event.target as HTMLInputElement | HTMLTextAreaElement
 
+    // The we get the last step, so we can write again in the same input.
+    // Without having redundant input interactions.
     const lastTestStep = peekTestSteps()
 
     const newStep = this.makeStep(target)
