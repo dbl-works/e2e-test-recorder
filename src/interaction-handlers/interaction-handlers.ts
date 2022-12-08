@@ -40,7 +40,7 @@ export class ButtonOrAnchorClickInteractionHandler {
       addTestStep(
         new TestStep(TestStepTypes.CLICK, {
           selector: this.getSelector(target),
-          content: target.textContent || target.value,
+          content: target.textContent?.trim() || target.value,
         })
       )
     )
