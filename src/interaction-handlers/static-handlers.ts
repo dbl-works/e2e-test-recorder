@@ -37,11 +37,12 @@ export class DocumentSelectionHandler {
 
     // In case of selection, we can't always rely on the target element for the selector.
     // What if it's a big paragraph coming from the DB? Thus, we can use the closest element that has a supported selector.
+    // If no parent element has a supported selector, we'll use the body.
     const selector = getSelector(
       selection?.focusNode?.parentElement?.closest(
-        SUPPORTED_SELECTORS.map((s) => `[${s}]`).join(',')
+        `${SUPPORTED_SELECTORS.map((s) => `[${s}]`).join(',')}, html`
       )
-    )
+    ) || 'body'
 
     dispatch(
       addTestStep(
