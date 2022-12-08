@@ -11,7 +11,7 @@ function fallbackTestStepsToCypressMapper(testStep: TestStep): string {
     case TestStepTypes.INPUT:
       // Inputs has no content, and usually have their own ID selector.
       // They shared by all mappers.
-      return `cy.get('${testStep.selector}').type('${testStep.value}')`
+      return `cy.get('${testStep.selector}').clear().type('${testStep.value}')`
     case TestStepTypes.CHECK:
       return `cy.get('${testStep.selector}').first().${
         testStep.checked ? 'check' : 'uncheck'

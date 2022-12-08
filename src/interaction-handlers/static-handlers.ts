@@ -16,7 +16,7 @@ export class DocumentSelectionHandler {
       if (instance.canHandle(event)) {
         dispatch(setSelection(target.getSelection()))
       } else {
-        dispatch(setSelection(target.getSelection()))
+        dispatch(setSelection(null))
       }
     })
   }
