@@ -1,5 +1,5 @@
-export async function waitUntil(predicate) {
-  return new Promise((resolve) => {
+export async function waitUntil(predicate: () => boolean) {
+  return new Promise<void>((resolve) => {
     const interval = setInterval(() => {
       if (predicate()) {
         clearInterval(interval)

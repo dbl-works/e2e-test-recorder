@@ -1,11 +1,13 @@
+import { FrameworkMapperBase } from '../framework-mappers/framework-mapper-base'
+import { TestStep } from '../models/test-steps'
 import { createAction, createReducer, createStore } from '../utils/store-utils'
 
 const initialState = {
-  testSteps: [],
-  selectedMapper: null,
+  testSteps: [] as TestStep[],
+  selectedMapper: null as FrameworkMapperBase | null,
   compactMode: false,
-  selection: null,
-  frame: null,
+  selection: null as any | null,
+  frame: null as HTMLIFrameElement | null,
 }
 
 export const addTestStep = createAction('ADD_TEST_STEP')
@@ -16,16 +18,6 @@ export const toggleCompactMode = createAction('TOGGLE_COMPACT_MODE')
 export const setSelection = createAction('SET_SELECTION')
 export const setFrame = createAction('SET_FRAME')
 
-/**
- * @typedef {Object} Store
- * @property {() => initialState} getState
- * @property {(action: {type: string, payload: any}) => void} dispatch
- * @property {(listener: () => void) => () => void} subscribe
- */
-
-/**
- * @type {Store}
- */
 const store = createStore(
   createReducer(initialState, {
     [addTestStep]: (state, { payload }) => {

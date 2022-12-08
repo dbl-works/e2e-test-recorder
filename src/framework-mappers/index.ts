@@ -6,4 +6,4 @@ import {
 export const mappers = {
   'Cypress Selector': CypressSelectorMapper,
   'Cypress Contains': CypressContainMapper,
-}
+} as const

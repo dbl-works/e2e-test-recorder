@@ -6,13 +6,13 @@ export const SUPPORTED_SELECTORS = [
   'data-testid',
   'id',
   'name',
-]
+] as const
 
-export function getSelector(element) {
+export function getSelector(element: HTMLElement) {
   return getAttributesSelector(element, SUPPORTED_SELECTORS)
 }
 
-export function getAttributesSelector(element, attributes) {
+export function getAttributesSelector(element: HTMLElement, attributes: typeof SUPPORTED_SELECTORS) {
   const attribute = attributes.find((attr) => element.hasAttribute(attr))
 
   // TODO: this should be related to the mapper.

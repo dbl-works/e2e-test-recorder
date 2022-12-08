@@ -1,8 +1,4 @@
-/**
- * @param {string} tag
- * @param {HTMLElement} props
- */
-export function h(tag, props = {}, ...childrenOrArray) {
+export function h(tag: keyof HTMLElementTagNameMap | Function, props: HTMLElement | any = {}, ...childrenOrArray: any[]) {
   const children = Array.isArray(childrenOrArray[0])
     ? childrenOrArray[0]
     : childrenOrArray
@@ -11,10 +7,10 @@ export function h(tag, props = {}, ...childrenOrArray) {
     return tag({ ...props, children })
   }
 
-  const element = document.createElement(tag)
+  const element = document.createElement(tag) as any
 
   Object.keys(props).forEach((key) => {
-    element[key] = props[key]
+    element[key as any] = props[key]
   })
 
   children.forEach((child) => {
@@ -33,5 +29,5 @@ export function h(tag, props = {}, ...childrenOrArray) {
     element.appendChild(child)
   })
 
-  return element
+  return element as HTMLElement
 }

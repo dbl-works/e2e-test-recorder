@@ -1,6 +1,7 @@
 import morphdom from 'morphdom'
 import { mappers } from '../framework-mappers'
 import { DocumentSelectionHandler } from '../interaction-handlers/static-handlers'
+import { TestStep } from '../models/test-steps'
 import { getSelectedMapper } from '../state/mappers'
 import {
   dispatch,
@@ -18,7 +19,7 @@ function MapperSelector() {
     'div',
     { className: 'space-x-2' },
     Object.keys(mappers).map((mapperName) => {
-      const mapper = mappers[mapperName]
+      const mapper = mappers[mapperName as keyof typeof mappers]
       return h(
         'label',
         {
@@ -104,7 +105,7 @@ function TestSelectionPanel() {
             className:
               'text-2xl absolute h-full right-0 px-2 bg-gradient-to-l from-slate-50 to-transparent',
             onclick: () => {
-              DocumentSelectionHandler.handle({ target: frame.contentDocument })
+              (new DocumentSelectionHandler({ getMapper: () => getSelectedMapper()! })).handle()
               dispatch(setSelection(null))
             },
           },
@@ -116,7 +117,7 @@ function TestSelectionPanel() {
 }
 
 function CompactPanel({ testSteps = [] }) {
-  const lastStep = testSteps[testSteps.length - 1]
+  const lastStep = testSteps[testSteps.length - 1] as TestStep
 
   return h(
     'div',
@@ -144,7 +145,7 @@ function CompactPanel({ testSteps = [] }) {
                 'flex items-center space-x-2 h-full p-3 flex-1 bg-white relative',
             },
             h('pre', { className: 'select-none font-bold' }, '>'),
-            h('pre', {}, getSelectedMapper().map(lastStep))
+            h('pre', {}, getSelectedMapper()?.map(lastStep))
           ),
         ]
       )
@@ -181,7 +182,7 @@ function App() {
                     'active:bg-slate-600 hover:bg-slate-800 active:shadow-sm shadow-md bg-slate-700 text-sm font-bold px-4 py-1 text-white px-2 rounded',
                   onclick: () => {
                     navigator.clipboard.writeText(
-                      getState().testSteps.map(getSelectedMapper()).join(`\r\n`)
+                      getState().testSteps.map(getSelectedMapper()?.map!).join(`\r\n`)
                     )
                   },
                 },
@@ -212,19 +213,22 @@ function App() {
                     {
                       className: 'font-mono outline-none',
                       contentEditable: true,
-                      oninput: (e) => {
+                      oninput: (e: Event) => {
                         // Have override only if they user input a different value.
-                        const defaultValue = getSelectedMapper().map({
+                        const defaultValue = getSelectedMapper()?.map({
                           ...testStep,
                           args: { ...testStep.args, override: null },
-                        })
+                        } as TestStep)
+
+                        const target = e.target as HTMLSpanElement
+
                         testStep.args.override =
-                          defaultValue === e.target.innerHTML
+                          defaultValue === target.innerHTML
                             ? null
-                            : e.target.innerHTML
+                            : target.innerHTML
                       },
                     },
-                    getSelectedMapper().map(testStep)
+                    getSelectedMapper()?.map(testStep)
                   ),
                   h(
                     'button',
@@ -255,9 +259,9 @@ function App() {
   )
 }
 
-export function renderUI(rootDiv) {
+export function renderUI(rootDiv: HTMLDivElement) {
   rootDiv.appendChild(App())
   subscribe(() => {
-    morphdom(rootDiv.firstChild, App())
+    morphdom(rootDiv.firstChild!, App())
   })
 }

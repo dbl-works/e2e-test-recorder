@@ -28,7 +28,7 @@ const jsContent = fs
   .replaceAll('`', '\\`')
   .replaceAll('${', '\\${')
 
-const bookmarklet = `javascript:${appendCss};${jsContent}init();`
+const bookmarklet = `javascript:${appendCss};${jsContent}_initRecorder();`
 
 function assignLink() {
   return `document.getElementById('link').href=\`${bookmarklet}\`;`

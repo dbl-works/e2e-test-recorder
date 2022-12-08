@@ -16,7 +16,7 @@ contentDiv.className = 'flex flex-col h-full'
 const rootDiv = document.createElement('div')
 contentDiv.prepend(rootDiv)
 
-const frame = document.createElement('iframe')
+const frame = document.createElement('iframe') as HTMLIFrameElement & { contentDocument: Document & {  } }
 const globalWindow = Function('return window')()
 
 function wrapIntoIframe() {
@@ -42,7 +42,7 @@ const interactionHandlers = [
 
 function registerHandlers() {
   interactionHandlers.forEach((handler) => {
-    handler.register(frame.contentDocument, { getMapper: getSelectedMapper })
+    handler.register(frame.contentDocument, { getMapper: () => getSelectedMapper()! })
   })
 }
 
@@ -96,11 +96,11 @@ export async function setupApp() {
     )
   }
 
-  await waitUntil(() => !!frame.contentWindow.document.body)
+  await waitUntil(() => !!frame.contentWindow?.document.body)
 
   eventLoop()
 
-  globalWindow.addEventListener('error', ({ error }) => {
+  globalWindow.addEventListener('error', ({ error }: { error: Error }) => {
     if (error instanceof ErrorBase) {
       alert(error.message)
     }

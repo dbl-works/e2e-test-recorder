@@ -6,37 +6,27 @@ import {
   SUPPORTED_SELECTORS,
 } from './selector-utils'
 
-/**
- *
- * @param {TestStep} testStep
- * @returns {string}
- */
-function fallbackTestStepsToCypressMapper({ type, args }) {
-  switch (type) {
+function fallbackTestStepsToCypressMapper(testStep: TestStep): string {
+  switch (testStep.type) {
     case TestStepTypes.INPUT:
       // Inputs has no content, and usually have their own ID selector.
       // They shared by all mappers.
-      return `cy.get('${args.selector}').type('${args.value}')`
+      return `cy.get('${testStep.selector}').type('${testStep.value}')`
     case TestStepTypes.CHECK:
-      return `cy.get('${args.selector}').first().${
-        args.checked ? 'check' : 'uncheck'
+      return `cy.get('${testStep.selector}').first().${
+        testStep.checked ? 'check' : 'uncheck'
       }()`
     case TestStepTypes.CONTAIN:
-      return `cy.get('${args.selector}').should('contain.text', '${args.content}')`
+      return `cy.get('${testStep.selector}').should('contain.text', '${testStep.content}')`
     default:
       throw new Error(`Unknown test step type: ${testStep.type}`)
   }
 }
 
-export class CypressSelectorMapper extends FrameworkMapperBase {
-  /**
-   *
-   * @param {TestStep} testStep
-   * @returns {string}
-   */
-  static map(testStep) {
+export const CypressSelectorMapper : FrameworkMapperBase = class {
+  static map(testStep: TestStep) {
     if (testStep.override) {
-      return args.override
+      return testStep.override
     }
 
     switch (testStep.type) {
@@ -47,7 +37,7 @@ export class CypressSelectorMapper extends FrameworkMapperBase {
     }
   }
 
-  static getSelector(element) {
+  static getSelector(element: HTMLElement) {
     const selector = getSelector(element)
     if (!selector) {
       throw new InvalidSelectorError(
@@ -60,15 +50,10 @@ export class CypressSelectorMapper extends FrameworkMapperBase {
   }
 }
 
-export class CypressContainMapper extends FrameworkMapperBase {
-  /**
-   *
-   * @param {TestStep} testStep
-   * @returns {string}
-   */
-  static map(testStep) {
+export const CypressContainMapper: FrameworkMapperBase = class {
+  static map(testStep: TestStep) {
     if (testStep.override) {
-      return args.override
+      return testStep.override
     }
 
     switch (testStep.type) {
@@ -79,7 +64,7 @@ export class CypressContainMapper extends FrameworkMapperBase {
     }
   }
 
-  static getSelector(element) {
+  static getSelector(element: HTMLElement) {
     return getSelector(element)
   }
 }

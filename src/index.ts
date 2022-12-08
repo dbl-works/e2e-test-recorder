@@ -10,10 +10,10 @@ const init = () => {
 
   globalWindow.started = true
 
-  setupApp(document.getElementById('root'))
+  setupApp()
 }
 
-window.init = init
+window._initRecorder = init
 if (import.meta.env.VITE_WITH_FAKE_DATA) {
   init()
 }
