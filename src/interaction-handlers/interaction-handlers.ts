@@ -10,7 +10,7 @@ function debounce(fn: Function, ms = 5) {
   timeoutId = setTimeout(fn, ms)
 }
 
-export class ButtonOrAnchorClickInteractionHandler {
+export class ClickableClickInteractionHandler {
   static register(document: Document, { getMapper }: InteractionHandlerConfig) {
     const instance = new this({ getMapper })
     document.addEventListener('click', (event) => {
@@ -29,9 +29,13 @@ export class ButtonOrAnchorClickInteractionHandler {
   canHandle(event: Event) {
     if (event.type !== 'click') return false
 
-    const target = this.closestClickable(event.target as Element) || event.target
+    const target =
+      this.closestClickable(event.target as Element) || event.target
 
-    return this.isButton(target! as HTMLButtonElement & { role: string })
+    return (
+      this.isButton(target! as HTMLButtonElement & { role: string }) ||
+      this.isClickableLike(target! as Element & { role: string })
+    )
   }
 
   handle(event: Event) {
@@ -61,9 +65,43 @@ export class ButtonOrAnchorClickInteractionHandler {
     )
   }
 
+  isClickableLike(target: Element & { role: string }) {
+    return this.clickableLikeRoles.includes(target.role)
+  }
+
+  get clickableLikeRoles() {
+    return [
+      'options',
+      'menuitem',
+      'radio',
+      'checkbox',
+      'combobox',
+      'menuitemcheckbox',
+      'menuitemradio',
+      'switch',
+      'tab',
+    ]
+  }
+
+  get buttonSelectors() {
+    return [
+      'a',
+      'button',
+      '[role="button"]',
+      '[role="link"]',
+      'input[type="submit"]',
+      'input[type="button"]',
+      'input[type="reset"]',
+    ]
+  }
+
+  get clickableLikeSelectors() {
+    return this.clickableLikeRoles.map((role) => `[role="${role}"]`)
+  }
+
   closestClickable(target: Element | null) {
     return target?.closest(
-      `a, button, [role="button"], [role="link"], input[type="submit"], input[type="button"], input[type="reset"]`
+      [...this.buttonSelectors, ...this.clickableLikeSelectors].join(', ')
     ) as HTMLInputElement | HTMLButtonElement
   }
 }
@@ -119,7 +157,9 @@ export class InputOrTextAreaInputInteractionHandler {
     return this.getMapper().getSelector(element)
   }
 
-  makeStep(target: HTMLInputElement | HTMLTextAreaElement & { checked?: boolean }) {
+  makeStep(
+    target: HTMLInputElement | (HTMLTextAreaElement & { checked?: boolean })
+  ) {
     if (this.isCheckboxOrRadio(target)) {
       return new TestStep(TestStepTypes.CHECK, {
         selector: this.getSelector(target),

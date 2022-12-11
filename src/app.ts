@@ -1,5 +1,5 @@
 import {
-  ButtonOrAnchorClickInteractionHandler,
+  ClickableClickInteractionHandler,
   InputOrTextAreaInputInteractionHandler,
 } from './interaction-handlers/interaction-handlers'
 import { addTestStep, dispatch, selectMapper, setFrame } from './state/store'
@@ -35,7 +35,7 @@ function wrapIntoIframe() {
 }
 
 const interactionHandlers = [
-  ButtonOrAnchorClickInteractionHandler,
+  ClickableClickInteractionHandler,
   InputOrTextAreaInputInteractionHandler,
   DocumentSelectionHandler,
 ]
